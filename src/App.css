@@ -1,6 +1,6 @@
 /* --- PALET WARNA & VARIABEL UTAMA (RETRO 90s) --- */
 :root {
-  --bg-color: #fcf1d4;
+  --bg-color: #e4d8f3;
   --container-color: #FFFFFF;
   --header-color: #e5709b;
   --text-color: #3d3d3d;
@@ -168,29 +168,39 @@ body {
 /* ============================================== */
 @media (max-width: 768px) {
   body {
-    padding: 20px 10px;
+    padding: 20px 15px; / Sedikit mengurangi padding body /
   }
   .todo-app-container {
     padding: 20px 15px;
   }
   .filter-controls {
-    /* MOBILE/TABLET: Membuat 3 kolom, menghasilkan 2 baris yang rapi */
     grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .filter-btn {
+    font-size: 13px;
+    padding: 6px 8px;
   }
   .view-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    margin-bottom: 15px;
   }
-  .fab {
-    align-self: flex-end;
+  .view-title {
+    font-size: 22px;
   }
 }
-
-/* Opsi tambahan untuk layar yang sangat kecil */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
+  body {
+    padding: 15px 10px;
+  }
   .filter-controls {
-    /* LAYAR KECIL: Membuat 2 kolom, menghasilkan 3 baris yang rapi */
     grid-template-columns: repeat(2, 1fr);
+  }
+  .todo-item {
+    font-size: 14px;
+    gap: 10px;
+    padding: 12px;
+  }
+  .delete-btn {
+    font-size: 20px;
   }
 }
