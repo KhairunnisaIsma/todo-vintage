@@ -1,86 +1,97 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import TodoItem from './components/TodoItem';
+import { getTaskStatus } from './utils/dateUtils';
+
+// --- Components ---
+
+function StatusBadge({ status }) {
+    if (status.style === 'none') return null;
+    return (
+        <span className={`status-badge badge-${status.style}`}>
+            <span className="material-icons" style={{ fontSize: '14px' }}>{status.icon}</span>
+            {status.text}
+        </span>
+    );
+}
+
+function TodoItem({ todo }) {
+    const status = getTaskStatus(todo);
+    return (
+        <li className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
+            <input 
+                type="checkbox" 
+                className="todo-item-checkbox" 
+                defaultChecked={todo.is_completed} 
+            />
+            <span className="todo-item-text">{todo.text}</span>
+            <StatusBadge status={status} />
+        </li>
+    );
+}
+
+const FILTERS = ['All', 'Overdue', 'Due Today', 'Upcoming', 'Completed'];
+
+function FilterControls({ activeFilter, setActiveFilter }) {
+    return (
+        <div className="filter-controls">
+            {FILTERS.map(filter => (
+                <button
+                    key={filter}
+                    className={`filter-btn ${activeFilter === filter ? 'active' : ''}`}
+                    onClick={() => setActiveFilter(filter)}
+                >
+                    {filter}
+                </button>
+            ))}
+        </div>
+    );
+}
+
+// --- Main App Component ---
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [inputText, setInputText] = useState('');
+    const [todos, setTodos] = useState([]);
+    const [activeFilter, setActiveFilter] = useState('All');
 
-  // Efek untuk mengambil data saat komponen pertama kali dimuat
-  useEffect(() => {
-    fetchTodos();
-  }, []);
+    useEffect(() => {
+        fetch('/api/todos')
+            .then(res => res.json())
+            .then(data => setTodos(data))
+            .catch(err => console.error("Failed to fetch todos:", err));
+    }, []);
 
-  const fetchTodos = async () => {
-    const res = await fetch('/api/todos');
-    const data = await res.json();
-    setTodos(data);
-  };
-
-  const handleAddTodo = async (e) => {
-    e.preventDefault();
-    if (inputText.trim() === '') return;
-
-    const res = await fetch('/api/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: inputText }),
+    const filteredTodos = todos.filter(todo => {
+        if (activeFilter === 'All') return true;
+        
+        const status = getTaskStatus(todo);
+        const filterLower = activeFilter.toLowerCase().replace(' ', ''); // "duetoday"
+        const statusTextLower = status.text.toLowerCase().replace(' ', ''); // "duetoday"
+        
+        if (activeFilter === 'Upcoming') {
+            return status.style === 'tomorrow' || status.style === 'upcoming';
+        }
+        
+        return statusTextLower === filterLower;
     });
 
-    if (res.ok) {
-      setInputText('');
-      fetchTodos(); // Ambil ulang data agar daftar terupdate
-    }
-  };
-  
-  const handleToggleTodo = async (id, is_completed) => {
-      const res = await fetch('/api/todos', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, is_completed }),
-      });
-      if (res.ok) {
-          fetchTodos();
-      }
-  };
-
-  const handleDeleteTodo = async (id) => {
-      const res = await fetch('/api/todos', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id }),
-      });
-      if (res.ok) {
-          fetchTodos();
-      }
-  };
-
-  return (
-    <div className="app-container">
-      <div className="todo-app">
-        <h1>To-Do List 90s</h1>
-        <form className="add-todo-form" onSubmit={handleAddTodo}>
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder="Ketik tugas baru..."
-          />
-          <button type="submit">Tambah</button>
-        </form>
-        <ul className="todo-list">
-          {todos.map((todo) => (
-            <TodoItem 
-              key={todo.id} 
-              todo={todo}
-              onToggle={handleToggleTodo}
-              onDelete={handleDeleteTodo}
+    return (
+        <div className="todo-app-container">
+            <header className="app-header">
+                <h1>My Vintage Tasks</h1>
+            </header>
+            
+            <FilterControls 
+                activeFilter={activeFilter}
+                setActiveFilter={setActiveFilter}
             />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+
+            <ul className="todo-list">
+                {filteredTodos.map(todo => (
+                    <TodoItem key={todo.id} todo={todo} />
+                ))}
+            </ul>
+        </div>
+    );
 }
 
 export default App;

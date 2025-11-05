@@ -1,27 +1,36 @@
 :root {
-  --bg-color: #FDF4F5;
-  --container-color: #E8A0BF;
-  --header-color: #BA90C6;
-  --focus-color: #C147E9;
+  --bg-color: #FDF4F5; /* Pink Pucat */
+  --container-color: #FFFFFF;
+  --header-color: #E8A0BF; /* Dusty Pink */
+  --accent-color: #BA90C6; /* Ungu Lavender */
   --text-color: #434242;
   --border-radius: 12px;
-  --border-style: 3px solid var(--text-color);
-  --box-shadow-style: 5px 5px 0px var(--text-color);
+  --border-style: 2px solid var(--text-color);
+  --box-shadow-style: 4px 4px 0px var(--text-color);
+
+  /* Status Colors */
+  --color-overdue-bg: #ffe3e3;
+  --color-overdue-text: #c0392b;
+  --color-completed-bg: #e3f4e3;
+  --color-completed-text: #27ae60;
+  --color-upcoming-bg: #e3f2fd;
+  --color-upcoming-text: #2980b9;
+  --color-future-bg: #f9fbe7;
+  --color-future-text: #f39c12;
 }
 
-.app-container {
+body {
+  font-family: 'Poppins', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 50px;
+  margin: 0;
+  padding: 40px 20px;
 }
 
-.todo-app {
+.todo-app-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
+  margin: 0 auto;
   background: var(--container-color);
   padding: 25px;
   border-radius: var(--border-radius);
@@ -29,54 +38,46 @@
   box-shadow: var(--box-shadow-style);
 }
 
-.todo-app h1 {
+.app-header h1 {
   background: var(--header-color);
-  padding: 10px 15px;
+  padding: 15px;
   text-align: center;
   margin: -25px -25px 25px -25px;
-  border-top-left-radius: 8px; /* Disesuaikan dengan border parent */
+  border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border-bottom: var(--border-style);
   color: white;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
-.add-todo-form {
+.filter-controls {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
-.add-todo-form input {
-  flex-grow: 1;
-  padding: 12px;
-  font-size: 16px;
-  border: var(--border-style);
-  border-radius: var(--border-radius);
-  background: #fff;
-}
-
-.add-todo-form input:focus {
-  outline: none;
-  border-color: var(--focus-color);
-}
-
-.add-todo-form button {
-  padding: 12px 20px;
-  font-size: 16px;
+.filter-btn {
+  padding: 8px 16px;
+  font-size: 14px;
   font-weight: 500;
   border: var(--border-style);
-  border-radius: var(--border-radius);
-  background-color: var(--header-color);
-  color: white;
+  border-radius: 8px;
+  background-color: #fff;
+  color: var(--text-color);
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
-.add-todo-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 3px 3px 0px var(--text-color);
+.filter-btn:hover {
+  background-color: var(--bg-color);
+}
+
+.filter-btn.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
 }
 
 .todo-list {
@@ -91,35 +92,41 @@
 .todo-item {
   display: flex;
   align-items: center;
+  gap: 15px;
   padding: 15px;
-  background: #fff;
-  border: var(--border-style);
+  background: #f9f9f9;
+  border: 2px solid #eee;
   border-radius: var(--border-radius);
-  transition: box-shadow 0.1s ease;
-}
-
-.todo-item.completed span {
-  text-decoration: line-through;
-  opacity: 0.6;
 }
 
 .todo-item-checkbox {
-  margin-right: 15px;
   width: 20px;
   height: 20px;
-  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .todo-item-text {
   flex-grow: 1;
-  cursor: pointer;
+  font-weight: 500;
 }
 
-.todo-item-delete {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 5px;
-  color: var(--text-color);
+.todo-item.completed .todo-item-text {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-overdue { background-color: var(--color-overdue-bg); color: var(--color-overdue-text); }
+.badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed-text); }
+.badge-tomorrow, .badge-today { background-color: var(--color-upcoming-bg); color: var(--color-upcoming-text); }
+.badge-upcoming { background-color: var(--color-future-bg); color: var(--color-future-text); }
