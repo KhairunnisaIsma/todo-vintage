@@ -170,42 +170,34 @@ body {
 /* ============================================== */
 
 @media (max-width: 768px) {
-  /* PERBAIKAN KUNCI: Memberi ruang di kanan-kiri body, memaksa kontainer mengecil */
   body {
     padding: 20px;
   }
-
-  /* Mengurangi padding internal agar konten pas di dalam kontainer yang lebih kecil */
   .todo-app-container {
     padding: 20px 15px;
   }
-
-  /* Mengurangi ukuran font agar tidak terlalu besar */
   .app-header h1 { font-size: 20px; }
   .view-title { font-size: 18px; }
-
-  /* Tombol tambah lebih kecil */
   .fab {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     font-size: 24px;
   }
 
-  /* Tampilkan container dan tombol scroll */
   .filter-container {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 5px; /* Jarak antara tombol < > dan list */
     margin-bottom: 20px;
   }
   .scroll-btn {
     display: block;
     flex-shrink: 0;
-    width: 30px; height: 30px;
+    /* PERBAIKAN: Tombol scroll lebih kecil */
+    width: 28px; height: 28px;
     border-radius: 50%;
-    border: 2px solid var(--text-color);
-    background: #fff;
-    font-size: 16px; font-weight: bold;
+    border: 2px solid #ccc; /* Border lebih soft */
+    background: #f9f9f9;
+    font-size: 14px; font-weight: bold;
     cursor: pointer;
   }
   .filter-controls {
@@ -221,8 +213,10 @@ body {
 
   .filter-btn {
     flex-shrink: 0;
-    padding: 6px 16px;
-    font-size: 13px;
+    /* PERBAIKAN: Tombol filter lebih kecil dan ringkas */
+    padding: 5px 12px;
+    font-size: 12px;
+    border-width: 2px;
   }
   
   .todo-item {
