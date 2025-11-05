@@ -25,14 +25,14 @@
 }
 
 /* ======================================================= */
-/* === GAYA DASAR DENGAN FONT BARU === */
+/* === GAYA DASAR DENGAN FONT BARU (LATO) === */
 /* ======================================================= */
 html {
   height: 100%;
 }
 body {
-  /* Menerapkan font Cherry Cream Soda sebagai default */
-  font-family: 'Cherry Cream Soda', cursive;
+  /* Menerapkan font Lato sebagai default */
+  font-family: 'Lato', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
@@ -64,17 +64,17 @@ body {
   border-bottom: var(--border-style);
 }
 .app-header h1 {
-  /* Menerapkan font Cherry Bomb One untuk judul utama */
+  /* Tetap menggunakan font Cherry Bomb One untuk judul utama */
   font-family: 'Cherry Bomb One', cursive;
-  font-size: 28px;
+  font-size: 30px;
   letter-spacing: 1px;
   margin: 0; color: white;
 }
 .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; }
 .view-title {
-  /* Menerapkan font Cherry Bomb One untuk sub-judul */
+  /* Tetap menggunakan font Cherry Bomb One untuk sub-judul */
   font-family: 'Cherry Bomb One', cursive;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: normal; margin: 0;
 }
 .fab {
@@ -102,8 +102,8 @@ body {
 }
 .filter-btn {
   padding: 10px;
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 16px;
+  font-weight: 700; /* Dibuat tebal agar mudah dibaca */
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
   cursor: pointer; transition: all 0.2s ease;
@@ -125,7 +125,7 @@ body {
 .todo-item-checkbox { width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; }
 .delete-btn { background: none; border: none; cursor: pointer; color: #aaa; font-size: 24px; padding: 0 5px; transition: color 0.2s ease; }
 .delete-btn:hover { color: var(--filter-overdue); }
-.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 12px; white-space: nowrap; }
+.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
 .badge-overdue { background-color: var(--color-overdue-bg); color: var(--color-overdue-text); }
 .badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed-text); }
 .badge-tomorrow, .badge-today { background-color: var(--color-upcoming-bg); color: var(--color-upcoming-text); }
@@ -134,11 +134,11 @@ body {
 /* --- FORM TAMBAH TUGAS --- */
 .add-task-form { display: flex; flex-direction: column; gap: 20px; }
 .form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-group label { font-family: 'Cherry Bomb One', cursive; font-size: 18px; font-weight: normal; }
-.form-group input, .btn { font-family: 'Cherry Cream Soda', cursive; font-size: 16px; }
+.form-group label { font-family: 'Cherry Bomb One', cursive; font-size: 20px; font-weight: normal; }
+.form-group input, .btn { font-family: 'Lato', sans-serif; font-size: 16px; }
 .form-group input { width: 100%; padding: 12px; border: var(--border-style); border-radius: 8px; box-sizing: border-box; }
 .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
-.btn { padding: 10px 20px; font-weight: normal; border-radius: 8px; cursor: pointer; border: var(--border-style); }
+.btn { padding: 10px 20px; font-weight: 700; border-radius: 8px; cursor: pointer; border: var(--border-style); }
 .btn-primary { background-color: var(--fab-color); color: white; border-color: var(--fab-color); }
 .btn-secondary { background-color: #fff; color: var(--text-color); }
 
@@ -158,8 +158,8 @@ body {
     margin: 0 auto;
   }
   .app-header { margin: -20px -15px 20px -15px; }
-  .app-header h1 { font-size: 22px; }
-  .view-title { font-size: 20px; }
+  .app-header h1 { font-size: 24px; }
+  .view-title { font-size: 22px; }
   .fab { width: 40px; height: 40px; font-size: 24px; }
   .todo-item { font-size: 14px; padding: 10px; }
   .status-badge { font-size: 11px; padding: 3px 8px; }
@@ -182,6 +182,7 @@ body {
   .filter-btn {
     flex-shrink: 0;
     padding: 6px 14px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 700;
   }
 }
