@@ -1,4 +1,4 @@
-/* --- PALET WARNA & VARIABEL UTAMA (RETRO 90s) --- */
+/* --- PALET WARNA & VARIABEL UTAMA --- */
 :root {
   --bg-color: #e4d8f3;
   --container-color: #FFFFFF;
@@ -9,7 +9,7 @@
   --box-shadow-style: 4px 4px 0px var(--text-color);
   --fab-color: #79d4b6;
 
-  /* --- WARNA FILTER AKTIF --- */
+  /* Warna Filter Aktif */
   --filter-all: #8e44ad;
   --filter-upcoming: #3498db;
   --filter-duetomorrow: #2ecc71;
@@ -17,16 +17,20 @@
   --filter-completed: #1abc9c;
   --filter-overdue: #e74c3c;
 
-
+  /* Warna Status Badge */
+  --color-overdue-bg: #ffe3e3; --color-overdue-text: #c0392b;
+  --color-completed-bg: #e3f4e3; --color-completed-text: #27ae60;
+  --color-upcoming-bg: #e3f2fd; --color-upcoming-text: #2980b9;
+  --color-future-bg: #f9fbe7; --color-future-text: #f39c12;
 }
 
-/* --- GAYA DASAR & RESPONSIVE --- */
+/* --- GAYA DASAR DENGAN FONT VINTAGE BARU --- */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'VT323', monospace;
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
-  padding: 40px 20px; /* Padding default untuk desktop */
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
@@ -49,7 +53,11 @@ body {
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
-.app-header h1 { margin: 0; color: white; font-weight: 700; letter-spacing: 1px; }
+.app-header h1 {
+  margin: 0; color: white;
+  letter-spacing: 2px;
+  font-size: 28px;
+}
 
 .view-header {
   display: flex;
@@ -58,7 +66,11 @@ body {
   margin-bottom: 20px;
   gap: 15px;
 }
-.view-title { font-size: 24px; font-weight: 600; margin: 0; }
+.view-title {
+  font-size: 26px;
+  font-weight: normal;
+  margin: 0;
+}
 .fab {
   width: 45px; height: 45px;
   background-color: var(--fab-color);
@@ -82,18 +94,16 @@ body {
   grid-template-columns: repeat(6, 1fr);
   gap: 10px; margin-bottom: 20px;
 }
-
 .filter-btn {
   padding: 8px 10px;
-  font-size: 14px; font-weight: 500;
+  font-size: 18px;
+  font-weight: normal;
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
   cursor: pointer; transition: all 0.2s ease;
   text-align: center;
 }
 .filter-btn:hover { background-color: #f5f5f5; }
-
-/* Mewarnai Tombol Filter Aktif */
 .filter-btn.active.All { background-color: var(--filter-all); color: white; border-color: var(--filter-all); }
 .filter-btn.active.Upcoming { background-color: var(--filter-upcoming); color: white; border-color: var(--filter-upcoming); }
 .filter-btn.active.DueTomorrow { background-color: var(--filter-duetomorrow); color: white; border-color: var(--filter-duetomorrow); }
@@ -103,92 +113,52 @@ body {
 
 /* --- DAFTAR TUGAS --- */
 .todo-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
-.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); }
-.todo-item-text { flex-grow: 1; font-weight: 500; cursor: pointer; }
+.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); font-size: 18px; }
+.todo-item-text { flex-grow: 1; font-weight: normal; cursor: pointer; }
 .todo-item.completed .todo-item-text { text-decoration: line-through; opacity: 0.6; }
 .todo-item-checkbox { width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; }
-
-.delete-btn {
-  background: none; border: none; cursor: pointer;
-  color: #aaa; font-size: 24px; padding: 0 5px;
-  transition: color 0.2s ease;
-}
+.delete-btn { background: none; border: none; cursor: pointer; color: #aaa; font-size: 24px; padding: 0 5px; transition: color 0.2s ease; }
 .delete-btn:hover { color: var(--filter-overdue); }
+.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
+.badge-overdue { background-color: var(--color-overdue-bg); color: var(--color-overdue-text); }
+.badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed-text); }
+.badge-tomorrow, .badge-today { background-color: var(--color-upcoming-bg); color: var(--color-upcoming-text); }
+.badge-upcoming { background-color: var(--color-future-bg); color: var(--color-future-text); }
 
-.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
-
-/* ... (Kode badge tetap sama) ... */
-.badge-overdue, .badge-completed, .badge-tomorrow, .badge-today, .badge-upcoming { /* ... */ }
-
-/* ======================================================= */
-/* === PERBAIKAN UTAMA UNTUK FORM "ADD NEW TASK" === */
-/* ======================================================= */
-.add-task-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* Jarak antara setiap form-group */
-}
-.form-group {
-  display: flex;
-  flex-direction: column; /* Label di atas, input di bawah */
-  gap: 8px; /* Jarak antara label dan input */
-}
-.form-group label {
-  font-weight: 600; /* Membuat label lebih tebal */
-}
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: var(--border-style);
-  border-radius: 8px;
-  box-sizing: border-box; /* Sangat penting agar padding tidak merusak layout */
-}
-.form-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end; /* Tombol di kanan */
-  margin-top: 10px;
-}
-.btn {
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  border: var(--border-style);
-}
+/* --- FORM TAMBAH TUGAS --- */
+.add-task-form { display: flex; flex-direction: column; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 20px; font-weight: normal; }
+.form-group input, .btn { font-family: 'VT323', monospace; font-size: 18px; }
+.form-group input { width: 100%; padding: 12px; border: var(--border-style); border-radius: 8px; box-sizing: border-box; }
+.form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+.btn { padding: 10px 20px; font-weight: normal; border-radius: 8px; cursor: pointer; border: var(--border-style); }
 .btn-primary { background-color: var(--fab-color); color: white; border-color: var(--fab-color); }
 .btn-secondary { background-color: #fff; color: var(--text-color); }
 
-/* ============================================== */
-/* === MEDIA QUERY UNTUK TABLET & SMARTPHONE === */
-/* ============================================== */
+/* ======================================================== */
+/* === MEDIA QUERY UNTUK TABLET & SMARTPHONE (< 768px) === */
+/* ======================================================== */
 @media (max-width: 768px) {
-  /* ... (Kode body, container, header, dll. tidak berubah dari versi sebelumnya) ... */
   body { padding: 20px; }
   .todo-app-container { padding: 20px 15px; }
-  .app-header h1 { font-size: 20px; }
-  .view-title { font-size: 18px; }
+  .app-header h1 { font-size: 24px; }
+  .view-title { font-size: 22px; }
   .fab { width: 40px; height: 40px; font-size: 24px; }
-  .todo-item { font-size: 14px; padding: 12px; }
 
-  /* === PERBAIKAN TOTAL UNTUK FILTER GESER INTERAKTIF === */
   .filter-container {
-    display: block; /* Mengubah dari flex ke block */
-    position: relative; /* Konteks untuk memposisikan tombol panah */
+    display: block;
+    position: relative;
     margin-bottom: 20px;
   }
-
   .scroll-btn {
-    display: flex; /* Menggunakan flex untuk centering */
+    display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute; /* DIPOSISIKAN SECARA ABSOLUT */
-    top: 0;
-    bottom: 0;
-    z-index: 2; /* Pastikan tombol di atas segalanya */
-    width: 35px; /* Lebar area tombol */
+    position: absolute;
+    top: 0; bottom: 0;
+    z-index: 2;
+    width: 35px;
     border: none;
     background: transparent;
     font-size: 20px;
@@ -197,32 +167,30 @@ body {
   }
   .scroll-btn.left {
     left: 0;
-    /* Efek fade di belakang tombol */
     background: linear-gradient(to right, var(--container-color) 60%, transparent);
   }
   .scroll-btn.right {
     right: 0;
-    /* Efek fade di belakang tombol */
     background: linear-gradient(to left, var(--container-color) 60%, transparent);
   }
-
   .filter-controls {
     display: flex;
     overflow-x: scroll;
     flex-wrap: nowrap;
     gap: 8px;
-    /* PADDING KUNCI: Memberi ruang untuk tombol absolut */
     padding-left: 35px;
     padding-right: 35px;
     margin: 0;
     -ms-overflow-style: none; scrollbar-width: none;
   }
   .filter-controls::-webkit-scrollbar { display: none; }
-
   .filter-btn {
     flex-shrink: 0;
-    padding: 5px 12px;
-    font-size: 12px;
-    border-width: 2px;
+    padding: 6px 14px;
+    font-size: 16px;
+  }
+  .todo-item {
+    font-size: 16px;
+    padding: 12px;
   }
 }
