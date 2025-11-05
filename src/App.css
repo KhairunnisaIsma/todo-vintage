@@ -75,12 +75,8 @@ body {
 .fab:hover { transform: scale(1.1); }
 
 /* --- Tampilan Filter Desktop --- */
-.filter-container { 
-  display: contents; 
-}
-.scroll-btn { 
-  display: none; 
-}
+.filter-container { display: contents; }
+.scroll-btn { display: none; }
 .filter-controls {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -168,59 +164,65 @@ body {
 /* ============================================== */
 /* === MEDIA QUERY UNTUK TABLET & SMARTPHONE === */
 /* ============================================== */
-
 @media (max-width: 768px) {
-  body {
-    padding: 20px;
-  }
-  .todo-app-container {
-    padding: 20px 15px;
-  }
+  /* ... (Kode body, container, header, dll. tidak berubah dari versi sebelumnya) ... */
+  body { padding: 20px; }
+  .todo-app-container { padding: 20px 15px; }
   .app-header h1 { font-size: 20px; }
   .view-title { font-size: 18px; }
-  .fab {
-    width: 40px; height: 40px;
-    font-size: 24px;
-  }
+  .fab { width: 40px; height: 40px; font-size: 24px; }
+  .todo-item { font-size: 14px; padding: 12px; }
 
+  /* === PERBAIKAN TOTAL UNTUK FILTER GESER INTERAKTIF === */
   .filter-container {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* Jarak antara tombol < > dan list */
+    display: block; /* Mengubah dari flex ke block */
+    position: relative; /* Konteks untuk memposisikan tombol panah */
     margin-bottom: 20px;
   }
+
   .scroll-btn {
-    display: block;
-    flex-shrink: 0;
-    /* PERBAIKAN: Tombol scroll lebih kecil */
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 2px solid #ccc; /* Border lebih soft */
-    background: #f9f9f9;
-    font-size: 14px; font-weight: bold;
+    display: flex; /* Menggunakan flex untuk centering */
+    align-items: center;
+    justify-content: center;
+    position: absolute; /* DIPOSISIKAN SECARA ABSOLUT */
+    top: 0;
+    bottom: 0;
+    z-index: 2; /* Pastikan tombol di atas segalanya */
+    width: 35px; /* Lebar area tombol */
+    border: none;
+    background: transparent;
+    font-size: 20px;
     cursor: pointer;
+    color: var(--text-color);
   }
+  .scroll-btn.left {
+    left: 0;
+    /* Efek fade di belakang tombol */
+    background: linear-gradient(to right, var(--container-color) 60%, transparent);
+  }
+  .scroll-btn.right {
+    right: 0;
+    /* Efek fade di belakang tombol */
+    background: linear-gradient(to left, var(--container-color) 60%, transparent);
+  }
+
   .filter-controls {
     display: flex;
     overflow-x: scroll;
     flex-wrap: nowrap;
-    flex-grow: 1;
     gap: 8px;
-    margin-bottom: 0;
+    /* PADDING KUNCI: Memberi ruang untuk tombol absolut */
+    padding-left: 35px;
+    padding-right: 35px;
+    margin: 0;
     -ms-overflow-style: none; scrollbar-width: none;
   }
   .filter-controls::-webkit-scrollbar { display: none; }
 
   .filter-btn {
     flex-shrink: 0;
-    /* PERBAIKAN: Tombol filter lebih kecil dan ringkas */
     padding: 5px 12px;
     font-size: 12px;
     border-width: 2px;
-  }
-  
-  .todo-item {
-    font-size: 14px;
-    padding: 12px;
   }
 }
