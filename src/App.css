@@ -16,8 +16,8 @@
   --filter-duetoday: #f1c40f;
   --filter-completed: #1abc9c;
   --filter-overdue: #e74c3c;
-  
-  /* ... (sisa variabel warna badge sama) ... */
+
+  /* ... (sisa variabel warna badge tetap sama) ... */
 }
 
 /* --- GAYA DASAR & RESPONSIVE --- */
@@ -57,7 +57,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  gap: 15px; /* Memberi jarak antara judul dan tombol */
+  gap: 15px;
 }
 .view-title { font-size: 24px; font-weight: 600; margin: 0; }
 
@@ -73,12 +73,17 @@ body {
   cursor: pointer;
   box-shadow: 2px 2px 0px var(--text-color);
   transition: transform 0.2s ease;
-  flex-shrink: 0; /* Mencegah tombol mengecil */
+  flex-shrink: 0;
 }
 .fab:hover { transform: scale(1.1); }
 
 /* --- KONTROL FILTER --- */
-.filter-controls { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Izinkan wrapping jika diperlukan */
+}
 .filter-btn {
   padding: 8px 16px; font-size: 14px; font-weight: 500;
   border: var(--border-style); border-radius: 8px;
@@ -87,7 +92,7 @@ body {
 }
 .filter-btn:hover { background-color: #f5f5f5; }
 
-/* PERBAIKAN: Menggunakan nama kelas yang benar untuk filter */
+/* Mewarnai Tombol Filter Aktif */
 .filter-btn.active.All { background-color: var(--filter-all); color: white; border-color: var(--filter-all); }
 .filter-btn.active.Upcoming { background-color: var(--filter-upcoming); color: white; border-color: var(--filter-upcoming); }
 .filter-btn.active.DueTomorrow { background-color: var(--filter-duetomorrow); color: white; border-color: var(--filter-duetomorrow); }
@@ -109,44 +114,72 @@ body {
 }
 .delete-btn:hover { color: var(--filter-overdue); }
 
-/* ... (sisa kode CSS untuk badge dan form tetap sama) ... */
-.status-badge { /* ... */ }
-.badge-overdue { /* ... */ }
-.badge-completed { /* ... */ }
-.badge-tomorrow, .badge-today { /* ... */ }
-.badge-upcoming { /* ... */ }
-.add-task-form { /* ... */ }
-.form-group label { /* ... */ }
-.form-group input { /* ... */ }
-.form-actions { /* ... */ }
-.btn { /* ... */ }
-.btn-primary { /* ... */ }
-.btn-secondary { /* ... */ }
+.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
 
+/* ... (Kode badge tetap sama) ... */
+.badge-overdue, .badge-completed, .badge-tomorrow, .badge-today, .badge-upcoming { /* ... */ }
 
-/* --- MEDIA QUERY UNTUK RESPONSIVE --- */
-@media (max-width: 640px) {
+/* ======================================================= */
+/* === PERBAIKAN UTAMA UNTUK FORM "ADD NEW TASK" === */
+/* ======================================================= */
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Jarak antara setiap form-group */
+}
+.form-group {
+  display: flex;
+  flex-direction: column; /* Label di atas, input di bawah */
+  gap: 8px; /* Jarak antara label dan input */
+}
+.form-group label {
+  font-weight: 600; /* Membuat label lebih tebal */
+}
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: var(--border-style);
+  border-radius: 8px;
+  box-sizing: border-box; /* Sangat penting agar padding tidak merusak layout */
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Tombol di kanan */
+  margin-top: 10px;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: var(--border-style);
+}
+.btn-primary { background-color: var(--fab-color); color: white; border-color: var(--fab-color); }
+.btn-secondary { background-color: #fff; color: var(--text-color); }
+
+/* ============================================== */
+/* === MEDIA QUERY UNTUK TABLET & SMARTPHONE === */
+/* ============================================== */
+@media (max-width: 768px) {
   body {
     padding: 20px 10px;
   }
   .todo-app-container {
-    padding: 15px;
+    padding: 20px 15px;
   }
-  .app-header h1 {
-    font-size: 20px;
+  /* Membuat filter menjadi 2 kolom (atau lebih) secara otomatis dan rapi */
+  .filter-controls {
+    justify-content: center; /* Tombol filter akan berada di tengah */
   }
   .view-header {
-    flex-direction: column; /* Judul di atas, tombol di bawah */
+    flex-direction: column;
     align-items: flex-start;
+    gap: 15px;
   }
   .fab {
-    align-self: flex-end; /* Tombol tetap di kanan */
-    margin-top: 10px;
-  }
-  .filter-controls {
-    justify-content: center; /* Tombol filter di tengah */
-  }
-  .todo-item {
-    flex-wrap: wrap; /* Izinkan item membungkus jika layar sempit */
+    align-self: flex-end; /* Tombol tambah tetap di kanan */
   }
 }
