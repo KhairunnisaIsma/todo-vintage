@@ -25,7 +25,7 @@
 }
 
 /* ======================================================= */
-/* === GAYA DASAR & LAYOUT DESKTOP === */
+/* === GAYA DASAR & LAYOUT CENTERING === */
 /* ======================================================= */
 html {
   height: 100%;
@@ -37,21 +37,22 @@ body {
   margin: 0;
   box-sizing: border-box;
   
-  /* HANYA UNTUK DESKTOP: Membuat body menjadi flex container untuk centering */
-  min-height: 100%;
+  /* Membuat body menjadi flex container untuk centering */
+  min-height: 100vh;
   display: flex;
-  justify-content: center; /* Center horizontal */
-  align-items: center; /* Center vertikal */
+  justify-content: center; /* SELALU center horizontal */
+  align-items: center;   /* Center vertikal di desktop */
+  padding: 20px; /* Memberi jarak aman di semua sisi */
 }
 
-/* --- Tampilan Default (Desktop) --- */
+/* --- Tampilan Default (Desktop & Tablet Besar) --- */
 .todo-app-container {
   position: relative;
-  width: 100%;
-  max-width: 650px;
-  margin: 20px;
+  /* Lebar Fluid untuk Desktop */
+  width: clamp(600px, 60vw, 800px);
+  margin: 0; /* Margin dikontrol oleh body flexbox */
   background: var(--container-color);
-  padding: 25px;
+  padding: 30px;
   border-radius: var(--border-radius);
   border: var(--border-style);
   box-shadow: var(--box-shadow-style);
@@ -59,12 +60,12 @@ body {
 .app-header {
   background: var(--header-color);
   padding: 15px; text-align: center;
-  margin: -25px -25px 25px -25px;
+  margin: -30px -30px 30px -30px; /* Disesuaikan dengan padding baru */
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
 .app-header h1 { font-size: 32px; letter-spacing: 2px; margin: 0; color: white; }
-.view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+.view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; }
 .view-title { font-size: 28px; font-weight: normal; margin: 0; }
 .fab {
   width: 45px; height: 45px;
@@ -108,13 +109,13 @@ body {
 
 /* --- DAFTAR TUGAS --- */
 .todo-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
-.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); font-size: 18px; }
+.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); font-size: 20px; }
 .todo-item-text { flex-grow: 1; font-weight: normal; cursor: pointer; }
 .todo-item.completed .todo-item-text { text-decoration: line-through; opacity: 0.6; }
 .todo-item-checkbox { width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; }
 .delete-btn { background: none; border: none; cursor: pointer; color: #aaa; font-size: 24px; padding: 0 5px; transition: color 0.2s ease; }
 .delete-btn:hover { color: var(--filter-overdue); }
-.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 14px; white-space: nowrap; }
+.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 16px; white-space: nowrap; }
 .badge-overdue { background-color: var(--color-overdue-bg); color: var(--color-overdue-text); }
 .badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed-text); }
 .badge-tomorrow, .badge-today { background-color: var(--color-upcoming-bg); color: var(--color-upcoming-text); }
@@ -132,22 +133,21 @@ body {
 .btn-secondary { background-color: #fff; color: var(--text-color); }
 
 /* ======================================================== */
-/* === MEDIA QUERY UNTUK TABLET & SMARTPHONE (< 768px) === */
+/* === MEDIA QUERY UNTUK TABLET POTRAIT & SMARTPHONE (< 800px) === */
 /* ======================================================== */
-@media (max-width: 768px) {
-  /* PERBAIKAN KUNCI: Mengembalikan perilaku 'body' ke normal di mobile */
+@media (max-width: 800px) {
   body {
-    display: block; /* Matikan flexbox di body agar konten tidak lagi di tengah vertikal */
-    align-items: initial; /* Reset properti align-items */
-    padding: 20px;
+    align-items: flex-start;
   }
-
   .todo-app-container {
+    width: 100%;
+    max-width: 450px;
     padding: 20px 15px;
     margin: 0;
-    max-width: 100%;
   }
-
+  .app-header {
+    margin: -20px -15px 20px -15px;
+  }
   .app-header h1 { font-size: 24px; }
   .view-title { font-size: 22px; }
   .fab { width: 40px; height: 40px; font-size: 24px; }
@@ -174,7 +174,6 @@ body {
     font-size: 16px;
     cursor: pointer;
   }
-
   .filter-controls {
     display: flex;
     overflow-x: scroll;
@@ -185,7 +184,6 @@ body {
     -ms-overflow-style: none; scrollbar-width: none;
   }
   .filter-controls::-webkit-scrollbar { display: none; }
-
   .filter-btn {
     flex-shrink: 0;
     padding: 6px 16px;
