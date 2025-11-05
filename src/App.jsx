@@ -8,9 +8,10 @@ import { getTaskStatus } from './utils/dateUtils';
 
 const FILTERS = ['All', 'Upcoming', 'Due Tomorrow', 'Due Today', 'Completed', 'Overdue'];
 
-function FilterControls({ activeFilter, setActiveFilter }) {
+function FilterControls({ activeFilter, setActiveFilter, scrollRef }) {
+    // Komponen ini sekarang menerima 'scrollRef'
     return (
-        <div className="filter-controls">
+        <div className="filter-controls" ref={scrollRef}>
             {FILTERS.map(filter => (
                 <button
                     key={filter}
@@ -86,10 +87,11 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [activeFilter, setActiveFilter] = useState('All');
     const [view, setView] = useState('list');
+    
+    // Hook useRef untuk mengakses elemen DOM filter
+    const scrollRef = useRef(null);
 
-    useEffect(() => {
-        fetchTodos();
-    }, []);
+    useEffect(() => { fetchTodos(); }, []);
 
     const fetchTodos = async () => {
         try {
@@ -142,6 +144,17 @@ function App() {
         }
     };
 
+     // FUNGSI BARU UNTUK MENGONTROL SCROLL
+    const handleScroll = (direction) => {
+        if (scrollRef.current) {
+            const scrollAmount = 200; // Seberapa jauh scroll saat tombol diklik
+            scrollRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth', // Animasi scroll yang halus
+            });
+        }
+    };
+
     const filteredAndSortedTodos = todos
         .filter(todo => {
             // Logika baru yang lebih ketat
@@ -171,23 +184,21 @@ function App() {
     return (
         <div className="todo-app-container">
             <header className="app-header"><h1>To-Do List</h1></header>
-
             {view === 'list' ? (
                 <>
                     <div className="view-header">
                         <h2 className="view-title">{getTitle()}</h2>
                         <button className="fab" onClick={() => setView('add')}>+</button>
                     </div>
-                    <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-                    {/* Daftar tugas sekarang menjadi div sederhana */}
+                    {/* STRUKTUR BARU DENGAN TOMBOL SCROLL */}
+                    <div className="filter-container">
+                        <button className="scroll-btn left" onClick={() => handleScroll('left')}>&lt;</button>
+                        <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} scrollRef={scrollRef} />
+                        <button className="scroll-btn right" onClick={() => handleScroll('right')}>&gt;</button>
+                    </div>
                     <div className="todo-list">
                         {filteredAndSortedTodos.map(todo => (
-                            <TodoItem
-                                key={todo.id}
-                                todo={todo}
-                                onToggle={handleToggleComplete}
-                                onDelete={handleDeleteTodo}
-                            />
+                            <TodoItem key={todo.id} todo={todo} onToggle={handleToggleComplete} onDelete={handleDeleteTodo} />
                         ))}
                     </div>
                 </>
@@ -202,5 +213,4 @@ function App() {
         </div>
     );
 }
-
 export default App;
