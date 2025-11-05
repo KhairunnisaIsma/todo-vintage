@@ -24,22 +24,32 @@
   --color-future-bg: #f9fbe7; --color-future-text: #f39c12;
 }
 
-/* --- GAYA DASAR DENGAN FONT VINTAGE BARU --- */
+/* ======================================================= */
+/* === PERBAIKAN KUNCI: CENTERING & SCALING LAYOUT === */
+/* ======================================================= */
+html {
+  height: 100%;
+}
 body {
   font-family: 'VT323', monospace;
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
-  padding: 40px 20px;
   box-sizing: border-box;
+  
+  /* Membuat body menjadi flex container untuk centering */
+  min-height: 100%;
+  display: flex;
+  justify-content: center; /* Center horizontal */
+  align-items: center; /* Center vertikal */
 }
 
 /* --- KONTAINER APLIKASI UTAMA --- */
 .todo-app-container {
   position: relative;
   width: 100%;
-  max-width: 550px;
-  margin: 0 auto;
+  max-width: 650px; /* LEBIH LEBAR di desktop */
+  margin: 20px; /* Memberi jarak jika konten lebih tinggi dari layar */
   background: var(--container-color);
   padding: 25px;
   border-radius: var(--border-radius);
@@ -53,11 +63,7 @@ body {
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
-.app-header h1 {
-  margin: 0; color: white;
-  letter-spacing: 2px;
-  font-size: 28px;
-}
+.app-header h1 { font-size: 32px; letter-spacing: 2px; }
 
 .view-header {
   display: flex;
@@ -66,11 +72,7 @@ body {
   margin-bottom: 20px;
   gap: 15px;
 }
-.view-title {
-  font-size: 26px;
-  font-weight: normal;
-  margin: 0;
-}
+.view-title { font-size: 28px; }
 .fab {
   width: 45px; height: 45px;
   background-color: var(--fab-color);
@@ -92,11 +94,12 @@ body {
 .filter-controls {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px; margin-bottom: 20px;
+  gap: 12px; /* Jarak lebih besar */
+  margin-bottom: 25px;
 }
 .filter-btn {
-  padding: 8px 10px;
-  font-size: 18px;
+  padding: 10px;
+  font-size: 20px;
   font-weight: normal;
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
@@ -140,57 +143,59 @@ body {
 /* === MEDIA QUERY UNTUK TABLET & SMARTPHONE (< 768px) === */
 /* ======================================================== */
 @media (max-width: 768px) {
-  body { padding: 20px; }
-  .todo-app-container { padding: 20px 15px; }
+  body {
+    /* Di mobile, konten mulai dari atas, tidak di tengah vertikal */
+    align-items: flex-start;
+    padding: 20px; /* Padding untuk memberi jarak kanan-kiri */
+  }
+
+  .todo-app-container {
+    padding: 20px 15px;
+    margin: 0; /* Hapus margin di mobile */
+    max-width: 100%; /* Biarkan kontainer memenuhi lebar yang diberi padding body */
+  }
+
   .app-header h1 { font-size: 24px; }
   .view-title { font-size: 22px; }
   .fab { width: 40px; height: 40px; font-size: 24px; }
+  .todo-item { font-size: 18px; padding: 12px; }
 
+  /* === LOGIKA FILTER GESER INTERAKTIF === */
   .filter-container {
-    display: block;
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     margin-bottom: 20px;
   }
   .scroll-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 0; bottom: 0;
+    position: relative; /* Kembali ke relative agar tidak overlap */
     z-index: 2;
-    width: 35px;
-    border: none;
-    background: transparent;
-    font-size: 20px;
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background: #f9f9f9;
+    font-size: 16px;
     cursor: pointer;
-    color: var(--text-color);
   }
-  .scroll-btn.left {
-    left: 0;
-    background: linear-gradient(to right, var(--container-color) 60%, transparent);
-  }
-  .scroll-btn.right {
-    right: 0;
-    background: linear-gradient(to left, var(--container-color) 60%, transparent);
-  }
+
   .filter-controls {
     display: flex;
     overflow-x: scroll;
     flex-wrap: nowrap;
+    flex-grow: 1;
     gap: 8px;
-    padding-left: 35px;
-    padding-right: 35px;
-    margin: 0;
+    margin-bottom: 0;
     -ms-overflow-style: none; scrollbar-width: none;
   }
   .filter-controls::-webkit-scrollbar { display: none; }
+
   .filter-btn {
     flex-shrink: 0;
-    padding: 6px 14px;
+    padding: 6px 16px;
     font-size: 16px;
-  }
-  .todo-item {
-    font-size: 16px;
-    padding: 12px;
   }
 }
