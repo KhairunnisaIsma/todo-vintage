@@ -1,0 +1,125 @@
+:root {
+  --bg-color: #FDF4F5;
+  --container-color: #E8A0BF;
+  --header-color: #BA90C6;
+  --focus-color: #C147E9;
+  --text-color: #434242;
+  --border-radius: 12px;
+  --border-style: 3px solid var(--text-color);
+  --box-shadow-style: 5px 5px 0px var(--text-color);
+}
+
+.app-container {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+}
+
+.todo-app {
+  width: 100%;
+  max-width: 500px;
+  background: var(--container-color);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  border: var(--border-style);
+  box-shadow: var(--box-shadow-style);
+}
+
+.todo-app h1 {
+  background: var(--header-color);
+  padding: 10px 15px;
+  text-align: center;
+  margin: -25px -25px 25px -25px;
+  border-top-left-radius: 8px; /* Disesuaikan dengan border parent */
+  border-top-right-radius: 8px;
+  border-bottom: var(--border-style);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.add-todo-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-todo-form input {
+  flex-grow: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: var(--border-style);
+  border-radius: var(--border-radius);
+  background: #fff;
+}
+
+.add-todo-form input:focus {
+  outline: none;
+  border-color: var(--focus-color);
+}
+
+.add-todo-form button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: var(--border-style);
+  border-radius: var(--border-radius);
+  background-color: var(--header-color);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.add-todo-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0px var(--text-color);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #fff;
+  border: var(--border-style);
+  border-radius: var(--border-radius);
+  transition: box-shadow 0.1s ease;
+}
+
+.todo-item.completed span {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.todo-item-checkbox {
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.todo-item-text {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.todo-item-delete {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  color: var(--text-color);
+}
