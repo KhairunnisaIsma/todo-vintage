@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 // Impor dari dnd-kit untuk fungsionalitas Drag & Drop
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable';
+// PERBAIKAN ADA DI BARIS DI BAWAH INI
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import './App.css';
-import { getTaskStatus } from './utils/dateUtils'; // Pastikan file ini ada di src/utils/
+import { getTaskStatus } from './utils/dateUtils';
 
 // ===================================================================================
 // KOMPONEN-KOMPONEN ANAK (HELPER COMPONENTS)
@@ -29,7 +30,6 @@ function FilterControls({ activeFilter, setActiveFilter }) {
     );
 }
 
-// Komponen TodoItem yang sudah terintegrasi dengan dnd-kit
 function SortableTodoItem({ todo, onToggle, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
 
