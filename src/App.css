@@ -9,23 +9,17 @@
   --box-shadow-style: 4px 4px 0px var(--text-color);
   --fab-color: #79d4b6;
 
-  /* Warna Filter Aktif */
+  /* ... (sisa variabel warna sama) ... */
   --filter-all: #8e44ad;
   --filter-upcoming: #3498db;
   --filter-duetomorrow: #2ecc71;
-  --filter-duetoday: #f1c40f;
+  --filter-duetoday: #f1c4f;
   --filter-completed: #1abc9c;
   --filter-overdue: #e74c3c;
-
-  /* Warna Status Badge */
-  --color-overdue-bg: #ffe3e3; --color-overdue-text: #c0392b;
-  --color-completed-bg: #e3f4e3; --color-completed-text: #27ae60;
-  --color-upcoming-bg: #e3f2fd; --color-upcoming-text: #2980b9;
-  --color-future-bg: #f9fbe7; --color-future-text: #f39c12;
 }
 
 /* ======================================================= */
-/* === GAYA DASAR & LAYOUT CENTERING === */
+/* === GAYA DASAR & LAYOUT CENTERING (DESKTOP) === */
 /* ======================================================= */
 html {
   height: 100%;
@@ -133,16 +127,19 @@ body {
 /* ======================================================== */
 /* === MEDIA QUERY UNTUK TABLET POTRAIT & SMARTPHONE === */
 /* ======================================================== */
-/* PERBAIKAN KUNCI: Breakpoint dinaikkan untuk mencakup landscape mobile */
 @media (max-width: 900px) {
+  /* PERBAIKAN KUNCI: Mengembalikan perilaku 'body' ke normal di mobile */
   body {
-    align-items: flex-start;
+    display: block; /* Matikan flexbox, biarkan konten mengalir dari atas */
+    align-items: initial; /* Reset properti flexbox */
+    justify-content: initial; /* Reset properti flexbox */
   }
+
   .todo-app-container {
     width: 100%;
     max-width: 450px;
     padding: 20px 15px;
-    margin: 0;
+    margin: 0 auto; /* Center kontainer secara horizontal */
   }
   .app-header {
     margin: -20px -15px 20px -15px;
