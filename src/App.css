@@ -166,73 +166,56 @@ body {
 /* ============================================== */
 /* === MEDIA QUERY UNTUK TABLET & SMARTPHONE === */
 /* ============================================== */
-/* --- Aturan untuk Tablet & Mobile (semua layar di bawah 768px) --- */
+
 @media (max-width: 768px) {
   body {
-    /* Hapus padding samping body agar kontainer bisa menempel ke tepi */
     padding: 20px 0;
   }
-  
   .todo-app-container {
-    /* Menghilangkan border, shadow, dan radius di samping untuk tampilan full-bleed */
     border-left: none;
     border-right: none;
     box-shadow: none;
     border-radius: 0;
     max-width: 100%;
-    padding-left: 20px; /* Memberi padding internal agar konten tidak menempel */
-    padding-right: 20px;
-  }
-
-  /* === INI ADALAH LOGIKA FILTER GESER === */
-  .filter-controls {
-    display: flex; /* Menggunakan Flexbox agar bisa digeser */
-    overflow-x: auto; /* MENGAKTIFKAN SCROLL HORIZONTAL */
-    padding-bottom: 15px; /* Memberi ruang untuk scrollbar (jika terlihat) */
-    margin-bottom: 15px;
-    
-    /* Menyembunyikan scrollbar visual agar lebih bersih */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  .filter-controls::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
-  }
-  
-  .filter-btn {
-    flex-shrink: 0; /* Mencegah tombol menyusut saat digeser */
-    /* Memberi padding yang lebih nyaman untuk disentuh */
-    padding: 8px 18px;
-    font-size: 14px;
-  }
-  
-  /* Menata ulang header agar judul di atas dan tombol tambah di bawah */
-  .view-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  .fab {
-    align-self: flex-end; /* Tombol tambah tetap di kanan */
-  }
-}
-
-/* --- Aturan Tambahan Khusus untuk Mobile Terkecil (di bawah 480px) --- */
-@media (max-width: 480px) {
-  .todo-app-container {
     padding-left: 15px;
     padding-right: 15px;
   }
-  .view-title {
-    font-size: 22px; /* Mengecilkan judul "My Tasks" */
+
+  /* === INI ADALAH LOGIKA FILTER GESER YANG SUDAH DIPERBAIKI === */
+  .filter-controls {
+    display: flex;
+    overflow-x: auto;
+    /* PERBAIKAN KUNCI: Memaksa semua item berada dalam satu baris */
+    flex-wrap: nowrap;
+    
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    gap: 10px; /* Jarak antar tombol */
+    
+    /* Menyembunyikan scrollbar visual */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
-  .todo-item {
-    /* Mengecilkan font di item tugas agar lebih pas */
-    font-size: 14px;
+  .filter-controls::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 6px 16px; /* Padding yang lebih baik untuk mobile */
+    font-size: 13px; /* Font yang sedikit lebih kecil */
+  }
+  
+  /* Menata ulang header agar lebih rapi */
+  .view-header {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
-    padding: 12px;
   }
-  .delete-btn {
-    font-size: 20px;
+  .fab {
+    align-self: flex-end;
+  }
+  .view-title {
+    font-size: 22px;
   }
 }
