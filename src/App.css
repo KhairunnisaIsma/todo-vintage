@@ -26,7 +26,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
-  padding: 20px 10px; /* Padding lebih kecil untuk mobile-first */
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
@@ -34,16 +34,14 @@ body {
 .todo-app-container {
   position: relative;
   width: 100%;
-  max-width: 550px; /* Sedikit lebih kecil agar lebih pas */
+  max-width: 550px; /* Lebar maksimal untuk desktop */
   margin: 0 auto;
   background: var(--container-color);
-  padding: 20px; /* Padding lebih kecil */
+  padding: 25px;
   border-radius: var(--border-radius);
   border: var(--border-style);
   box-shadow: var(--box-shadow-style);
 }
-
-/* --- HEADER & JUDUL --- */
 .app-header {
   background: var(--header-color);
   padding: 15px; text-align: center;
@@ -61,8 +59,6 @@ body {
   gap: 15px;
 }
 .view-title { font-size: 24px; font-weight: 600; margin: 0; }
-
-/* --- TOMBOL TAMBAH (FAB) --- */
 .fab {
   width: 45px; height: 45px;
   background-color: var(--fab-color);
@@ -78,15 +74,19 @@ body {
 }
 .fab:hover { transform: scale(1.1); }
 
-/* --- KONTROL FILTER --- */
-/* --- Tampilan Filter Default (Desktop) --- */
-.filter-container { display: contents; } /* Di desktop, container ini tidak melakukan apa-apa */
-.scroll-btn { display: none; } /* Sembunyikan tombol scroll di desktop */
+/* --- Tampilan Filter Desktop --- */
+.filter-container { 
+  display: contents; 
+}
+.scroll-btn { 
+  display: none; 
+}
 .filter-controls {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px; margin-bottom: 20px;
 }
+
 .filter-btn {
   padding: 8px 10px;
   font-size: 14px; font-weight: 500;
@@ -170,6 +170,29 @@ body {
 /* ============================================== */
 
 @media (max-width: 768px) {
+  body {
+    /* Padding di body lebih kecil */
+    padding: 20px 10px;
+  }
+  .todo-app-container {
+    /* Kontainer lebih kecil */
+    padding: 15px;
+  }
+  .app-header h1 {
+    /* Judul utama lebih kecil */
+    font-size: 20px;
+  }
+  .view-title {
+    /* Judul "My Tasks" lebih kecil */
+    font-size: 18px;
+  }
+  .fab {
+    /* Tombol tambah lebih kecil */
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+
   /* Tampilkan container dan tombol scroll */
   .filter-container {
     display: flex;
@@ -178,7 +201,7 @@ body {
     margin-bottom: 20px;
   }
   .scroll-btn {
-    display: block; /* Tampilkan tombol */
+    display: block;
     flex-shrink: 0;
     width: 30px; height: 30px;
     border-radius: 50%;
@@ -190,9 +213,9 @@ body {
   /* Mengubah layout filter-controls dari Grid menjadi Flexbox */
   .filter-controls {
     display: flex;
-    overflow-x: scroll; /* Scroll, bukan auto, agar scrollbar selalu ada secara fungsional */
+    overflow-x: scroll;
     flex-wrap: nowrap;
-    flex-grow: 1; /* Ambil sisa ruang */
+    flex-grow: 1;
     gap: 8px;
     margin-bottom: 0;
     -ms-overflow-style: none; scrollbar-width: none;
@@ -203,10 +226,8 @@ body {
     padding: 6px 16px;
     font-size: 13px;
   }
-  /* Penyesuaian layout mobile lainnya */
-  .todo-app-container { padding: 15px; }
-  .app-header h1 { font-size: 20px; }
-  .view-title { font-size: 20px; }
-  .fab { width: 40px; height: 40px; font-size: 24px; }
-  .todo-item { font-size: 14px; padding: 12px; }
+  .todo-item {
+    font-size: 14px;
+    padding: 12px;
+  }
 }
