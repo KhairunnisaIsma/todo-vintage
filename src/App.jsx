@@ -1,10 +1,4 @@
 import { useState, useEffect } from 'react';
-// Impor dari dnd-kit untuk fungsionalitas Drag & Drop
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-// PERBAIKAN ADA DI BARIS DI BAWAH INI
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-
 import './App.css';
 import { getTaskStatus } from './utils/dateUtils';
 
@@ -20,7 +14,6 @@ function FilterControls({ activeFilter, setActiveFilter }) {
             {FILTERS.map(filter => (
                 <button
                     key={filter}
-                    // PERBAIKAN: Hapus spasi dari nama kelas agar CSS berfungsi
                     className={`filter-btn ${activeFilter === filter ? 'active' : ''} ${filter.replace(' ', '')}`}
                     onClick={() => setActiveFilter(filter)}
                 >
@@ -31,15 +24,21 @@ function FilterControls({ activeFilter, setActiveFilter }) {
     );
 }
 
-function SortableTodoItem({ todo, onToggle, onDelete }) {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
-    const style = { transform: CSS.Transform.toString(transform), transition };
+// Komponen TodoItem sekarang menjadi komponen sederhana tanpa dnd-kit
+function TodoItem({ todo, onToggle, onDelete }) {
     const status = getTaskStatus(todo);
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
-            <input type="checkbox" className="todo-item-checkbox" checked={todo.is_completed} onChange={() => onToggle(todo.id, !todo.is_completed)} />
-            <span className="todo-item-text" onClick={() => onToggle(todo.id, !todo.is_completed)}>{todo.text}</span>
+        <div className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
+            <input
+                type="checkbox"
+                className="todo-item-checkbox"
+                checked={todo.is_completed}
+                onChange={() => onToggle(todo.id, !todo.is_completed)}
+            />
+            <span className="todo-item-text" onClick={() => onToggle(todo.id, !todo.is_completed)}>
+                {todo.text}
+            </span>
             <StatusBadge status={status} />
             <button className="delete-btn" onClick={() => onDelete(todo.id)}>×</button>
         </div>
@@ -47,7 +46,7 @@ function SortableTodoItem({ todo, onToggle, onDelete }) {
 }
 
 function StatusBadge({ status }) {
-    if (status.style === 'none') return null;
+    if (status.style === 'none' || !status.text) return null;
     return <span className={`status-badge badge-${status.style}`}>{status.text}</span>;
 }
 
@@ -65,7 +64,7 @@ function AddTaskForm({ onAddTask, onCancel }) {
         <form className="add-task-form" onSubmit={handleSubmit}>
             <div className="form-group">
                 <label htmlFor="task-text">Task Name</label>
-                <input id="task-text" type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g., Submit monthly report" autoFocus />
+                <input id="task-text" type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g., Finish the report" autoFocus />
             </div>
             <div className="form-group">
                 <label htmlFor="task-due-date">Due Date (Optional)</label>
@@ -87,8 +86,6 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [activeFilter, setActiveFilter] = useState('All');
     const [view, setView] = useState('list');
-    
-    const sensors = useSensors(useSensor(PointerSensor));
 
     useEffect(() => {
         fetchTodos();
@@ -117,7 +114,7 @@ function App() {
 
     const handleToggleComplete = async (id, is_completed) => {
         const originalTodos = [...todos];
-        setTodos(todos.map(todo => todo.id === id ? { ...todo, is_completed } : todo)); 
+        setTodos(todos.map(todo => todo.id === id ? { ...todo, is_completed } : todo));
         try {
             await fetch('/api/todos', {
                 method: 'PUT',
@@ -144,40 +141,15 @@ function App() {
             console.error("Failed to delete todo:", error);
         }
     };
-    
-    const handleDragEnd = async (event) => {
-        const { active, over } = event;
-        if (over && active.id !== over.id) {
-            const oldIndex = todos.findIndex((todo) => todo.id === active.id);
-            const newIndex = todos.findIndex((todo) => todo.id === over.id);
-            const reorderedTodos = arrayMove(todos, oldIndex, newIndex);
-            setTodos(reorderedTodos);
-            const reorderPayload = reorderedTodos.map((todo, index) => ({ id: todo.id, position: index }));
-            try {
-                await fetch('/api/reorder', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ todos: reorderPayload }),
-                });
-            } catch (error) {
-                console.error("Failed to save new order:", error);
-                fetchTodos();
-            }
-        }
-    };
 
     const filteredAndSortedTodos = todos
         .filter(todo => {
-            // Logika filter yang diperbaiki
-            if (todo.is_completed) {
-                return activeFilter === 'Completed' || activeFilter === 'All';
-            }
-            if (activeFilter === 'Completed') {
-                return false;
-            }
+            // Logika baru yang lebih ketat
+            if (activeFilter === 'All') return true;
+            if (activeFilter === 'Completed') return todo.is_completed;
+            if (todo.is_completed) return false; // Jika sudah selesai, jangan muncul di filter lain
 
             const status = getTaskStatus(todo);
-            if (activeFilter === 'All') return true;
             if (activeFilter === 'Upcoming') return status.style === 'upcoming';
             if (activeFilter === 'Due Tomorrow') return status.style === 'tomorrow';
             if (activeFilter === 'Due Today') return status.style === 'today';
@@ -186,7 +158,6 @@ function App() {
             return false;
         })
         .sort((a, b) => {
-            // Urutkan berdasarkan tanggal deadline
             if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
             if (a.due_date && b.due_date) return new Date(a.due_date) - new Date(b.due_date);
             return a.due_date ? -1 : b.due_date ? 1 : 0;
@@ -208,22 +179,17 @@ function App() {
                         <button className="fab" onClick={() => setView('add')}>+</button>
                     </div>
                     <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                        <SortableContext items={todos.map(t => t.id)} strategy={verticalListSortingStrategy}>
-                            <div className="todo-list">
-                                {filteredAndSortedTodos.map(todo => (
-                                    <SortableTodoItem
-                                        key={todo.id}
-                                        id={todo.id}
-                                        todo={todo}
-                                        onToggle={handleToggleComplete}
-                                        onDelete={handleDeleteTodo}
-                                    />
-                                ))}
-                            </div>
-                        </SortableContext>
-                    {/* INI ADALAH TAG PENUTUP YANG SUDAH DIPERBAIKI */}
-                    </DndContext>
+                    {/* Daftar tugas sekarang menjadi div sederhana */}
+                    <div className="todo-list">
+                        {filteredAndSortedTodos.map(todo => (
+                            <TodoItem
+                                key={todo.id}
+                                todo={todo}
+                                onToggle={handleToggleComplete}
+                                onDelete={handleDeleteTodo}
+                            />
+                        ))}
+                    </div>
                 </>
             ) : (
                 <>
