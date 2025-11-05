@@ -78,20 +78,20 @@ body {
 .fab:hover { transform: scale(1.1); }
 
 /* --- KONTROL FILTER --- */
+/* --- Tampilan Filter Default (Desktop) --- */
 .filter-controls {
-  display: grid; /* Menggunakan Grid */
-  /* DESKTOP: Membuat 6 kolom yang sama lebarnya, memaksa 1 baris */
+  display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   margin-bottom: 25px;
 }
 .filter-btn {
-  padding: 8px 10px; /* Sedikit mengurangi padding horizontal */
+  padding: 8px 10px;
   font-size: 14px; font-weight: 500;
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
   cursor: pointer; transition: all 0.2s ease;
-  text-align: center; /* Memastikan teks di tengah */
+  text-align: center;
 }
 .filter-btn:hover { background-color: #f5f5f5; }
 
@@ -166,49 +166,71 @@ body {
 /* ============================================== */
 /* === MEDIA QUERY UNTUK TABLET & SMARTPHONE === */
 /* ============================================== */
-/* --- Tampilan Tablet (lebar < 768px) --- */
+/* --- Aturan untuk Tablet & Mobile (semua layar di bawah 768px) --- */
 @media (max-width: 768px) {
-  .filter-controls {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* --- Tampilan Mobile (lebar < 600px) --- */
-/* PERBAIKAN KUNCI: Aturan lebih agresif untuk mobile */
-@media (max-width: 600px) {
   body {
-    /* Memberi lebih banyak ruang di sisi kiri-kanan */
-    padding: 20px 10px;
+    /* Hapus padding samping body agar kontainer bisa menempel ke tepi */
+    padding: 20px 0;
   }
+  
   .todo-app-container {
-    padding: 20px 15px;
+    /* Menghilangkan border, shadow, dan radius di samping untuk tampilan full-bleed */
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    border-radius: 0;
+    max-width: 100%;
+    padding-left: 20px; /* Memberi padding internal agar konten tidak menempel */
+    padding-right: 20px;
   }
+
+  /* === INI ADALAH LOGIKA FILTER GESER === */
+  .filter-controls {
+    display: flex; /* Menggunakan Flexbox agar bisa digeser */
+    overflow-x: auto; /* MENGAKTIFKAN SCROLL HORIZONTAL */
+    padding-bottom: 15px; /* Memberi ruang untuk scrollbar (jika terlihat) */
+    margin-bottom: 15px;
+    
+    /* Menyembunyikan scrollbar visual agar lebih bersih */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .filter-controls::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+  
+  .filter-btn {
+    flex-shrink: 0; /* Mencegah tombol menyusut saat digeser */
+    /* Memberi padding yang lebih nyaman untuk disentuh */
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+  
+  /* Menata ulang header agar judul di atas dan tombol tambah di bawah */
   .view-header {
-    /* Judul di atas, tombol di bawah */
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 15px;
   }
   .fab {
     align-self: flex-end; /* Tombol tambah tetap di kanan */
   }
+}
+
+/* --- Aturan Tambahan Khusus untuk Mobile Terkecil (di bawah 480px) --- */
+@media (max-width: 480px) {
+  .todo-app-container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
   .view-title {
     font-size: 22px; /* Mengecilkan judul "My Tasks" */
   }
-  .filter-controls {
-    /* Membuat 2 kolom yang rapi */
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px; /* Mengurangi jarak antar tombol */
-  }
-  .filter-btn {
-    /* Mengecilkan tombol agar pas */
-    font-size: 12px;
-    padding: 8px 5px;
-  }
   .todo-item {
+    /* Mengecilkan font di item tugas agar lebih pas */
     font-size: 14px;
-    padding: 12px;
     gap: 10px;
+    padding: 12px;
   }
   .delete-btn {
     font-size: 20px;
