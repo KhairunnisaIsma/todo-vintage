@@ -37,20 +37,18 @@ body {
   margin: 0;
   box-sizing: border-box;
   
-  /* Membuat body menjadi flex container untuk centering */
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* SELALU center horizontal */
-  align-items: center;   /* Center vertikal di desktop */
-  padding: 20px; /* Memberi jarak aman di semua sisi */
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 /* --- Tampilan Default (Desktop & Tablet Besar) --- */
 .todo-app-container {
   position: relative;
-  /* Lebar Fluid untuk Desktop */
   width: clamp(600px, 60vw, 800px);
-  margin: 0; /* Margin dikontrol oleh body flexbox */
+  margin: 0;
   background: var(--container-color);
   padding: 30px;
   border-radius: var(--border-radius);
@@ -60,7 +58,7 @@ body {
 .app-header {
   background: var(--header-color);
   padding: 15px; text-align: center;
-  margin: -30px -30px 30px -30px; /* Disesuaikan dengan padding baru */
+  margin: -30px -30px 30px -30px;
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
@@ -133,9 +131,10 @@ body {
 .btn-secondary { background-color: #fff; color: var(--text-color); }
 
 /* ======================================================== */
-/* === MEDIA QUERY UNTUK TABLET POTRAIT & SMARTPHONE (< 800px) === */
+/* === MEDIA QUERY UNTUK TABLET POTRAIT & SMARTPHONE === */
 /* ======================================================== */
-@media (max-width: 800px) {
+/* PERBAIKAN KUNCI: Breakpoint dinaikkan untuk mencakup landscape mobile */
+@media (max-width: 900px) {
   body {
     align-items: flex-start;
   }
