@@ -12,7 +12,7 @@ import { getTaskStatus } from './utils/dateUtils';
 // KOMPONEN-KOMPONEN ANAK (HELPER COMPONENTS)
 // ===================================================================================
 
-const FILTERS = ['All', 'Overdue', 'Due Today', 'Upcoming', 'Completed'];
+const FILTERS = ['All', 'Upcoming', 'Due Tomorrow', 'Due Today', 'Completed', 'Overdue'];
 
 function FilterControls({ activeFilter, setActiveFilter }) {
     return (
@@ -179,11 +179,17 @@ function App() {
 
     const filteredTodos = todos.filter(todo => {
         if (activeFilter === 'All') return true;
+        
         const status = getTaskStatus(todo);
+        const filterLower = activeFilter.toLowerCase().replace(' ', ''); // e.g., "duetomorrow"
+        
+        // Logika khusus untuk 'Upcoming' yang sekarang berbeda
         if (activeFilter === 'Upcoming') {
-            return status.style === 'tomorrow' || status.style === 'upcoming';
+            return status.style === 'upcoming';
         }
-        return status.text.toLowerCase().replace(' ', '') === activeFilter.toLowerCase().replace(' ', '');
+
+        // Logika untuk filter lainnya
+        return status.text.toLowerCase().replace(' ', '') === filterLower;
     });
 
     const getTitle = () => {
@@ -194,10 +200,15 @@ function App() {
     return (
         <div className="todo-app-container">
             <header className="app-header"><h1>To-Do List</h1></header>
-            <h2 className="view-title">{getTitle()}</h2>
 
             {view === 'list' ? (
                 <>
+                    {/* --- LAYOUT HEADER BARU DENGAN TOMBOL TAMBAH --- */}
+                    <div className="view-header">
+                        <h2 className="view-title">{getTitle()}</h2>
+                        <button className="fab" onClick={() => setView('add')}>+</button>
+                    </div>
+
                     <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
                     
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -215,11 +226,15 @@ function App() {
                             </div>
                         </SortableContext>
                     </DndContext>
-
-                    <button className="fab" onClick={() => setView('add')}>+</button>
                 </>
             ) : (
-                <AddTaskForm onAddTask={handleAddTask} onCancel={() => setView('list')} />
+                <>
+                    {/* Di halaman Add Task, kita hanya tampilkan judul */}
+                    <div className="view-header">
+                         <h2 className="view-title">{getTitle()}</h2>
+                    </div>
+                    <AddTaskForm onAddTask={handleAddTask} onCancel={() => setView('list')} />
+                </>
             )}
         </div>
     );
