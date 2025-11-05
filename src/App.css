@@ -168,54 +168,68 @@ body {
 /* ============================================== */
 
 @media (max-width: 768px) {
-  body {
-    padding: 20px 0;
-  }
+  body { padding: 20px 0; }
   .todo-app-container {
-    border-left: none;
-    border-right: none;
-    box-shadow: none;
-    border-radius: 0;
+    border-left: none; border-right: none;
+    box-shadow: none; border-radius: 0;
     max-width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 20px 15px; /* Padding internal yang lebih kecil */
   }
 
-  /* === INI ADALAH LOGIKA FILTER GESER YANG SUDAH DIPERBAIKI === */
+  /* === LOGIKA FILTER GESER DENGAN INDIKATOR PANAH === */
   .filter-controls {
+    position: relative; /* Diperlukan untuk memposisikan panah */
     display: flex;
     overflow-x: auto;
-    /* PERBAIKAN KUNCI: Memaksa semua item berada dalam satu baris */
     flex-wrap: nowrap;
-    
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    gap: 10px; /* Jarak antar tombol */
-    
-    /* Menyembunyikan scrollbar visual */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    padding-bottom: 15px; margin-bottom: 15px;
+    gap: 10px;
+    -ms-overflow-style: none; scrollbar-width: none;
   }
-  .filter-controls::-webkit-scrollbar {
-    display: none;
+  .filter-controls::-webkit-scrollbar { display: none; }
+  
+  /* === INI ADALAH INDIKATOR PANAHNYA === */
+  .filter-controls::after {
+    content: '>'; /* Karakter panah */
+    position: absolute; /* Diposisikan di dalam .filter-controls */
+    top: 0; right: -15px; bottom: 15px; /* Posisikan di kanan, -15px agar pas di tepi kontainer */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 40px; /* Lebar area fade & panah */
+    /* Gradien untuk efek fade out */
+    background: linear-gradient(to left, var(--container-color) 60%, transparent);
+    
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: bold;
+    pointer-events: none; /* Penting agar panah tidak bisa diklik */
   }
   
   .filter-btn {
     flex-shrink: 0;
-    padding: 6px 16px; /* Padding yang lebih baik untuk mobile */
-    font-size: 13px; /* Font yang sedikit lebih kecil */
+    padding: 6px 16px;
+    font-size: 13px;
   }
   
-  /* Menata ulang header agar lebih rapi */
+  /* Layout header & judul yang lebih ringkas */
   .view-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    margin-bottom: 15px;
   }
   .fab {
     align-self: flex-end;
   }
   .view-title {
-    font-size: 22px;
+    font-size: 20px; /* Judul lebih kecil */
+  }
+  .todo-item {
+    font-size: 14px;
+    padding: 12px;
+    gap: 10px;
   }
 }
