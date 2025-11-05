@@ -17,7 +17,7 @@
   --filter-completed: #1abc9c;
   --filter-overdue: #e74c3c;
 
-  /* ... (sisa variabel warna badge tetap sama) ... */
+
 }
 
 /* --- GAYA DASAR & RESPONSIVE --- */
@@ -79,16 +79,19 @@ body {
 
 /* --- KONTROL FILTER --- */
 .filter-controls {
-  display: flex;
+  display: grid; /* Menggunakan Grid */
+  /* DESKTOP: Membuat 6 kolom yang sama lebarnya, memaksa 1 baris */
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   margin-bottom: 25px;
-  flex-wrap: wrap; /* Izinkan wrapping jika diperlukan */
 }
 .filter-btn {
-  padding: 8px 16px; font-size: 14px; font-weight: 500;
+  padding: 8px 10px; /* Sedikit mengurangi padding horizontal */
+  font-size: 14px; font-weight: 500;
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
   cursor: pointer; transition: all 0.2s ease;
+  text-align: center; /* Memastikan teks di tengah */
 }
 .filter-btn:hover { background-color: #f5f5f5; }
 
@@ -170,9 +173,9 @@ body {
   .todo-app-container {
     padding: 20px 15px;
   }
-  /* Membuat filter menjadi 2 kolom (atau lebih) secara otomatis dan rapi */
   .filter-controls {
-    justify-content: center; /* Tombol filter akan berada di tengah */
+    /* MOBILE/TABLET: Membuat 3 kolom, menghasilkan 2 baris yang rapi */
+    grid-template-columns: repeat(3, 1fr);
   }
   .view-header {
     flex-direction: column;
@@ -180,6 +183,14 @@ body {
     gap: 15px;
   }
   .fab {
-    align-self: flex-end; /* Tombol tambah tetap di kanan */
+    align-self: flex-end;
+  }
+}
+
+/* Opsi tambahan untuk layar yang sangat kecil */
+@media (max-width: 400px) {
+  .filter-controls {
+    /* LAYAR KECIL: Membuat 2 kolom, menghasilkan 3 baris yang rapi */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
