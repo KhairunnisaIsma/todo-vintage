@@ -20,7 +20,8 @@ function FilterControls({ activeFilter, setActiveFilter }) {
             {FILTERS.map(filter => (
                 <button
                     key={filter}
-                    className={`filter-btn ${activeFilter === filter ? 'active' : ''} ${filter.replace(' ', '.')}`}
+                    // PERBAIKAN: Hapus spasi dari nama kelas agar CSS berfungsi
+                    className={`filter-btn ${activeFilter === filter ? 'active' : ''} ${filter.replace(' ', '')}`}
                     onClick={() => setActiveFilter(filter)}
                 >
                     {filter}
@@ -32,25 +33,13 @@ function FilterControls({ activeFilter, setActiveFilter }) {
 
 function SortableTodoItem({ todo, onToggle, onDelete }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
-    
+    const style = { transform: CSS.Transform.toString(transform), transition };
     const status = getTaskStatus(todo);
 
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={`todo-item ${todo.is_completed ? 'completed' : ''}`}>
-            <input
-                type="checkbox"
-                className="todo-item-checkbox"
-                checked={todo.is_completed}
-                onChange={() => onToggle(todo.id, !todo.is_completed)}
-            />
-            <span className="todo-item-text" onClick={() => onToggle(todo.id, !todo.is_completed)}>
-                {todo.text}
-            </span>
+            <input type="checkbox" className="todo-item-checkbox" checked={todo.is_completed} onChange={() => onToggle(todo.id, !todo.is_completed)} />
+            <span className="todo-item-text" onClick={() => onToggle(todo.id, !todo.is_completed)}>{todo.text}</span>
             <StatusBadge status={status} />
             <button className="delete-btn" onClick={() => onDelete(todo.id)}>×</button>
         </div>
@@ -177,24 +166,35 @@ function App() {
         }
     };
 
-    const filteredTodos = todos.filter(todo => {
-        if (activeFilter === 'All') return true;
-        
-        const status = getTaskStatus(todo);
-        const filterLower = activeFilter.toLowerCase().replace(' ', ''); // e.g., "duetomorrow"
-        
-        // Logika khusus untuk 'Upcoming' yang sekarang berbeda
-        if (activeFilter === 'Upcoming') {
-            return status.style === 'upcoming';
-        }
+    const filteredAndSortedTodos = todos
+        .filter(todo => {
+            // Logika filter yang diperbaiki
+            if (todo.is_completed) {
+                return activeFilter === 'Completed' || activeFilter === 'All';
+            }
+            if (activeFilter === 'Completed') {
+                return false;
+            }
 
-        // Logika untuk filter lainnya
-        return status.text.toLowerCase().replace(' ', '') === filterLower;
-    });
+            const status = getTaskStatus(todo);
+            if (activeFilter === 'All') return true;
+            if (activeFilter === 'Upcoming') return status.style === 'upcoming';
+            if (activeFilter === 'Due Tomorrow') return status.style === 'tomorrow';
+            if (activeFilter === 'Due Today') return status.style === 'today';
+            if (activeFilter === 'Overdue') return status.style === 'overdue';
+            
+            return false;
+        })
+        .sort((a, b) => {
+            // Urutkan berdasarkan tanggal deadline
+            if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
+            if (a.due_date && b.due_date) return new Date(a.due_date) - new Date(b.due_date);
+            return a.due_date ? -1 : b.due_date ? 1 : 0;
+        });
 
     const getTitle = () => {
         if (view === 'add') return 'Add New Task';
-        return `My Tasks (${filteredTodos.length})`;
+        return `My Tasks (${filteredAndSortedTodos.length})`;
     };
 
     return (
@@ -203,18 +203,15 @@ function App() {
 
             {view === 'list' ? (
                 <>
-                    {/* --- LAYOUT HEADER BARU DENGAN TOMBOL TAMBAH --- */}
                     <div className="view-header">
                         <h2 className="view-title">{getTitle()}</h2>
                         <button className="fab" onClick={() => setView('add')}>+</button>
                     </div>
-
                     <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-                    
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                         <SortableContext items={todos.map(t => t.id)} strategy={verticalListSortingStrategy}>
                             <div className="todo-list">
-                                {filteredTodos.map(todo => (
+                                {filteredAndSortedTodos.map(todo => (
                                     <SortableTodoItem
                                         key={todo.id}
                                         id={todo.id}
@@ -225,11 +222,11 @@ function App() {
                                 ))}
                             </div>
                         </SortableContext>
+                    {/* INI ADALAH TAG PENUTUP YANG SUDAH DIPERBAIKI */}
                     </DndContext>
                 </>
             ) : (
                 <>
-                    {/* Di halaman Add Task, kita hanya tampilkan judul */}
                     <div className="view-header">
                          <h2 className="view-title">{getTitle()}</h2>
                     </div>
