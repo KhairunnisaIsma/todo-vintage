@@ -25,7 +25,7 @@
 }
 
 /* ======================================================= */
-/* === PERBAIKAN KUNCI: CENTERING & SCALING LAYOUT === */
+/* === GAYA DASAR & LAYOUT DESKTOP === */
 /* ======================================================= */
 html {
   height: 100%;
@@ -37,19 +37,19 @@ body {
   margin: 0;
   box-sizing: border-box;
   
-  /* Membuat body menjadi flex container untuk centering */
+  /* HANYA UNTUK DESKTOP: Membuat body menjadi flex container untuk centering */
   min-height: 100%;
   display: flex;
   justify-content: center; /* Center horizontal */
   align-items: center; /* Center vertikal */
 }
 
-/* --- KONTAINER APLIKASI UTAMA --- */
+/* --- Tampilan Default (Desktop) --- */
 .todo-app-container {
   position: relative;
   width: 100%;
-  max-width: 650px; /* LEBIH LEBAR di desktop */
-  margin: 20px; /* Memberi jarak jika konten lebih tinggi dari layar */
+  max-width: 650px;
+  margin: 20px;
   background: var(--container-color);
   padding: 25px;
   border-radius: var(--border-radius);
@@ -63,16 +63,9 @@ body {
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
-.app-header h1 { font-size: 32px; letter-spacing: 2px; }
-
-.view-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 15px;
-}
-.view-title { font-size: 28px; }
+.app-header h1 { font-size: 32px; letter-spacing: 2px; margin: 0; color: white; }
+.view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+.view-title { font-size: 28px; font-weight: normal; margin: 0; }
 .fab {
   width: 45px; height: 45px;
   background-color: var(--fab-color);
@@ -88,13 +81,12 @@ body {
 }
 .fab:hover { transform: scale(1.1); }
 
-/* --- Tampilan Filter Desktop --- */
 .filter-container { display: contents; }
 .scroll-btn { display: none; }
 .filter-controls {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 12px; /* Jarak lebih besar */
+  gap: 12px;
   margin-bottom: 25px;
 }
 .filter-btn {
@@ -143,16 +135,17 @@ body {
 /* === MEDIA QUERY UNTUK TABLET & SMARTPHONE (< 768px) === */
 /* ======================================================== */
 @media (max-width: 768px) {
+  /* PERBAIKAN KUNCI: Mengembalikan perilaku 'body' ke normal di mobile */
   body {
-    /* Di mobile, konten mulai dari atas, tidak di tengah vertikal */
-    align-items: flex-start;
-    padding: 20px; /* Padding untuk memberi jarak kanan-kiri */
+    display: block; /* Matikan flexbox di body agar konten tidak lagi di tengah vertikal */
+    align-items: initial; /* Reset properti align-items */
+    padding: 20px;
   }
 
   .todo-app-container {
     padding: 20px 15px;
-    margin: 0; /* Hapus margin di mobile */
-    max-width: 100%; /* Biarkan kontainer memenuhi lebar yang diberi padding body */
+    margin: 0;
+    max-width: 100%;
   }
 
   .app-header h1 { font-size: 24px; }
@@ -171,7 +164,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* Kembali ke relative agar tidak overlap */
+    position: relative;
     z-index: 2;
     flex-shrink: 0;
     width: 30px; height: 30px;
