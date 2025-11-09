@@ -13,7 +13,7 @@
   --filter-all: #8e44ad;
   --filter-upcoming: #3498db;
   --filter-duetomorrow: #2ecc71;
-  --filter-duetoday: #f1c40f;
+  --filter-duetoday: #f1c40f; /* Kode warna yang benar */
   --filter-completed: #1abc9c;
   --filter-overdue: #e74c3c;
 
@@ -25,15 +25,14 @@
 }
 
 /* ======================================================= */
-/* === GAYA DASAR DENGAN FONT BARU (RYE & RALEWAY) === */
+/* === GAYA DASAR DENGAN FONT BARU (LATO) === */
 /* ======================================================= */
 html {
   height: 100%;
 }
 body {
-  /* Menerapkan font Raleway sebagai default */
-  font-family: 'Raleway', sans-serif;
-  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400; /* Ketebalan default untuk teks biasa */
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
@@ -59,24 +58,21 @@ body {
 }
 .app-header {
   background: var(--header-color);
-  padding: 12px; text-align: center;
+  padding: 15px; text-align: center;
   margin: -30px -30px 30px -30px;
   border-top-left-radius: 8px; border-top-right-radius: 8px;
   border-bottom: var(--border-style);
 }
 .app-header h1 {
-  /* Menerapkan font Rye untuk judul utama */
-  font-family: 'Rye', serif;
-  font-size: 28px;
-  font-weight: normal;
+  font-family: 'Cherry Bomb One', cursive;
+  font-size: 30px;
   letter-spacing: 1px;
   margin: 0; color: white;
 }
 .view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; }
 .view-title {
-  /* Menerapkan font Rye untuk sub-judul */
-  font-family: 'Rye', serif;
-  font-size: 24px;
+  font-family: 'Cherry Bomb One', cursive;
+  font-size: 26px;
   font-weight: normal; margin: 0;
 }
 .fab {
@@ -104,10 +100,8 @@ body {
 }
 .filter-btn {
   padding: 10px;
-  font-size: 15px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 16px;
+  font-weight: 700; /* SUDAH BOLD */
   border: var(--border-style); border-radius: 8px;
   background-color: #fff; color: var(--text-color);
   cursor: pointer; transition: all 0.2s ease;
@@ -123,13 +117,18 @@ body {
 
 /* --- DAFTAR TUGAS --- */
 .todo-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
-.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); font-size: 16px; font-weight: 700; }
-.todo-item-text { flex-grow: 1; font-weight: 700; cursor: pointer; }
-.todo-item.completed .todo-item-text { text-decoration: line-through; opacity: 0.6; font-weight: 400; }
+.todo-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border: 2px solid #eee; border-radius: var(--border-radius); font-size: 16px; }
+.todo-item-text {
+  flex-grow: 1;
+  /* PERUBAHAN UTAMA: Membuat teks tugas menjadi tebal */
+  font-weight: 700;
+  cursor: pointer;
+}
+.todo-item.completed .todo-item-text { text-decoration: line-through; opacity: 0.6; font-weight: 400; } /* Kembali normal jika sudah selesai */
 .todo-item-checkbox { width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; }
 .delete-btn { background: none; border: none; cursor: pointer; color: #aaa; font-size: 24px; padding: 0 5px; transition: color 0.2s ease; }
 .delete-btn:hover { color: var(--filter-overdue); }
-.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+.status-badge { display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
 .badge-overdue { background-color: var(--color-overdue-bg); color: var(--color-overdue-text); }
 .badge-completed { background-color: var(--color-completed-bg); color: var(--color-completed-text); }
 .badge-tomorrow, .badge-today { background-color: var(--color-upcoming-bg); color: var(--color-upcoming-text); }
@@ -138,11 +137,18 @@ body {
 /* --- FORM TAMBAH TUGAS --- */
 .add-task-form { display: flex; flex-direction: column; gap: 20px; }
 .form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-group label { font-family: 'Rye', serif; font-size: 20px; font-weight: normal; }
-.form-group input, .btn { font-family: 'Raleway', sans-serif; font-size: 16px; }
+.form-group label { font-family: 'Cherry Bomb One', cursive; font-size: 20px; font-weight: normal; }
+.form-group input, .btn { font-family: 'Lato', sans-serif; font-size: 16px; }
 .form-group input { width: 100%; padding: 12px; border: var(--border-style); border-radius: 8px; box-sizing: border-box; }
 .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
-.btn { padding: 10px 20px; font-weight: 700; border-radius: 8px; cursor: pointer; border: var(--border-style); }
+.btn {
+  padding: 10px 20px;
+  /* PERUBAHAN UTAMA: Membuat tombol form menjadi tebal */
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  border: var(--border-style);
+}
 .btn-primary { background-color: var(--fab-color); color: white; border-color: var(--fab-color); }
 .btn-secondary { background-color: #fff; color: var(--text-color); }
 
@@ -161,12 +167,12 @@ body {
     padding: 20px 15px;
     margin: 0 auto;
   }
-  .app-header { margin: -20px -15px 20px -15px; padding: 10px; }
+  .app-header { margin: -20px -15px 20px -15px; }
   .app-header h1 { font-size: 24px; }
   .view-title { font-size: 22px; }
   .fab { width: 40px; height: 40px; font-size: 24px; }
   .todo-item { font-size: 14px; padding: 10px; }
-  .status-badge { font-size: 10px; padding: 3px 8px; }
+  .status-badge { font-size: 11px; padding: 3px 8px; }
 
   /* === LOGIKA FILTER GESER INTERAKTIF === */
   .filter-container { display: flex; align-items: center; gap: 5px; margin-bottom: 20px; }
@@ -186,7 +192,7 @@ body {
   .filter-btn {
     flex-shrink: 0;
     padding: 6px 14px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
   }
 }
